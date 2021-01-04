@@ -11,12 +11,12 @@
 
 rp_module_id="sorr"
 rp_module_desc="Streets of Rage Remake"
-rp_module_help="Please copy your SorR.dat file along with the mod and palettes folders into $md_inst."
+rp_module_help="Please copy your SorR.dat file along with the mod and palettes folders into $romdir/ports/$md_id."
 rp_module_section="exp"
 rp_module_flags="!x86 !x11 !mali"
 
 function depends_sorr() {
-    getDepends libsdl-mixer1.2
+    getDepends libsdl-mixer1.2 libpng12-0
 }
 
 function sources_sorr() {
@@ -25,13 +25,17 @@ function sources_sorr() {
 
 function install_sorr() {
     md_ret_files=(
-    'bgdi-330'
+    'bgdi-333'
     )
 }
 
 function configure_sorr() {
-    mkRomDir "ports"
-    chmod 755 "$md_inst/bgdi-330"
+    mkRomDir "ports/$md_id"
+    chmod 755 "$md_inst/bgdi-333"
+    ln -s "$romdir/ports/$md_id/SorR.dat" "$md_inst/SorR.dat"
+    ln -s "$romdir/ports/$md_id/mod" "$md_inst/mod"
+    ln -s "$romdir/ports/$md_id/palettes" "$md_inst/palettes"
+    ln -s "$romdir/ports/$md_id/SorMaker.dat" "$md_inst/SorMaker.dat"
     moveConfigFile "$md_inst/savegame" "$md_conf_root/$md_id/"
-    addPort "$md_id" "sorr" "Streets of Rage Remake" "pushd $md_inst; ./bgdi-330 ./SorR.dat; popd"
+    addPort "$md_id" "sorr" "Streets of Rage Remake" "pushd $md_inst; ./bgdi-333 ./SorR.dat; popd"
 }
